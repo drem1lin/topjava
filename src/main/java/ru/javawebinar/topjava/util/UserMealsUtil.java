@@ -8,8 +8,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class UserMealsUtil {
@@ -33,16 +31,13 @@ public class UserMealsUtil {
     public static List<UserMealWithExcess> filteredByCycles(List<UserMeal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         Map<LocalDate, Integer> dayCalories = new HashMap<>();
         for (UserMeal meal : meals) {
-            LocalDate mealDate = meal.getDateTime().toLocalDate();
-            dayCalories.merge(mealDate, meal.getCalories(), Integer::sum);
+            dayCalories.merge(meal.getDate(), meal.getCalories(), Integer::sum);
         }
 
         List<UserMealWithExcess> mealsWithExcess = new ArrayList<>();
         for (UserMeal meal : meals) {
-            LocalTime mealTime = meal.getDateTime().toLocalTime();
-            if (TimeUtil.isBetweenHalfOpen(mealTime, startTime, endTime)) {
-                LocalDate mealDate = meal.getDateTime().toLocalDate();
-                boolean exceed = dayCalories.get(mealDate) > caloriesPerDay;
+            if (TimeUtil.isBetweenHalfOpen(meal.getTime(), startTime, endTime)) {
+                boolean exceed = dayCalories.get(meal.getDate()) > caloriesPerDay;
                 mealsWithExcess.add(new UserMealWithExcess(meal.getDateTime(), meal.getDescription(), meal.getCalories(), exceed));
             }
         }
@@ -54,9 +49,9 @@ public class UserMealsUtil {
                 .collect(Collectors.toMap(UserMeal::getDate, UserMeal::getCalories, Integer::sum));
 
         return meals.stream()
-                .filter(elt -> TimeUtil.isBetweenHalfOpen(elt.getTime(), startTime, endTime))
-                .map(s -> new UserMealWithExcess(s.getDateTime(), s.getDescription(), s.getCalories(),
-                        caloriesOfDay.getOrDefault(s.getDate(), 0) > caloriesPerDay))
+                .filter(m -> TimeUtil.isBetweenHalfOpen(m.getTime(), startTime, endTime))
+                .map(me -> new UserMealWithExcess(me.getDateTime(), me.getDescription(), me.getCalories(),
+                        caloriesOfDay.getOrDefault(me.getDate(), 0) > caloriesPerDay))
                 .collect(Collectors.toList());
     }
 
