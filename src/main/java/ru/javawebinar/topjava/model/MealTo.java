@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public class MealTo {
     private final LocalDateTime dateTime;
 
-    private final String description;
+    public final String description;
 
     private final int calories;
 
