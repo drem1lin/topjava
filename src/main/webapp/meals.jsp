@@ -26,10 +26,11 @@
         <th>Описание</th>
         <th>Калории</th>
     </tr>
-    <c:forEach items="${mealToList}" var="meal" >
-       <tr >
-            <td>${meal.description}</td>
-
+    <c:forEach items="${mealToList}" var="d" >
+       <tr class="${d.excess == true ? 'red' :'green'} ">
+           <td>${d.dateTime}</td>
+           <td>${d.description}</td>
+           <td>${d.calories}</td>
        </tr>
     </c:forEach>
 </table>
