@@ -25,19 +25,24 @@
 <h3><a href="index.html">Home</a></h3>
 <hr>
 <h2>Meals</h2>
-<table>
+<table border=1>
     <tr>
+        <th>ID</th>
         <th>Дата</th>
         <th>Описание</th>
         <th>Калории</th>
     </tr>
     <c:forEach items="${mealToList}" var="d">
         <tr class="${d.excess == true ? 'red' :'green'} ">
+            <td>${d.id}</td>
             <td>${d.dateTime}</td>
             <td>${d.description}</td>
             <td>${d.calories}</td>
+            <td><a href="meals?action=edit&Id=<c:out value="${d.id}"/>">Update</a></td>
+            <td><a href="meals?action=delete&Id=<c:out value="${d.id}"/>">Delete</a></td>
         </tr>
     </c:forEach>
+    <p><a href="addmeal">Add Meal</a></p>
 </table>
 </body>
 </html>
