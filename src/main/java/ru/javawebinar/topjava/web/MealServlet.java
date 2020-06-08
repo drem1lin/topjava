@@ -22,6 +22,7 @@ public class MealServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.debug("redirect to meals");
+        request.setCharacterEncoding("UTF-8");
 
         String action = request.getParameter("action");
         if (action != null && action.equalsIgnoreCase("delete")) {
@@ -52,6 +53,7 @@ public class MealServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         log.debug("Post: " + request.getParameter("description") + "\t" + request.getParameter("calories") + "\t" + request.getParameter("datetime"));
 
         int calories = getIntOrDefault(request, "calories", 0);
