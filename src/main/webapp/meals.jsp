@@ -10,8 +10,13 @@
 
 <html lang="ru">
 <style>
-    .green{background-color: green}
-    .red{background-color: red}
+    .green {
+        background-color: green
+    }
+
+    .red {
+        background-color: red
+    }
 </style>
 <head>
     <title>Meals</title>
@@ -26,12 +31,12 @@
         <th>Описание</th>
         <th>Калории</th>
     </tr>
-    <c:forEach items="${mealToList}" var="d" >
-       <tr class="${d.excess == true ? 'red' :'green'} ">
-           <td>${d.dateTime}</td>
-           <td>${d.description}</td>
-           <td>${d.calories}</td>
-       </tr>
+    <c:forEach items="${mealToList}" var="d">
+        <tr class="${d.excess == true ? 'red' :'green'} ">
+            <td>${d.dateTime}</td>
+            <td>${d.description}</td>
+            <td>${d.calories}</td>
+        </tr>
     </c:forEach>
 </table>
 </body>
