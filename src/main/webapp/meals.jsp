@@ -1,12 +1,7 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Павел
-  Date: 07.06.2020
-  Time: 20:34
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<jsp:useBean id="addmeal" class="ru.javawebinar.topjava.web.MealServlet"/>
 
 <html lang="ru">
 <style>
@@ -33,13 +28,13 @@
         <th>Обновить</th>
         <th>Удалить</th>
     </tr>
-    <c:forEach items="${mealToList}" var="d">
-        <tr class="${d.excess == true ? 'red' :'green'} ">
-            <td>${d.dateTime}</td>
-            <td>${d.description}</td>
-            <td>${d.calories}</td>
-            <td><a href="meals?action=edit&Id=<c:out value="${d.id}"/>">Обновить</a></td>
-            <td><a href="meals?action=delete&Id=<c:out value="${d.id}"/>">Удалить</a></td>
+    <c:forEach items="${mealToList}" var="meal">
+        <tr class="${meal.excess == true ? 'red' :'green'} ">
+            <td>${meal.dateTime}</td>
+            <td>${meal.description}</td>
+            <td>${meal.calories}</td>
+            <td><a href="meals?action=edit&Id=<c:out value="${meal.id}"/>">Обновить</a></td>
+            <td><a href="meals?action=delete&Id=<c:out value="${meal.id}"/>">Удалить</a></td>
         </tr>
     </c:forEach>
     <p><a href="meals?action=edit">Add Meal</a></p>

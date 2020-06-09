@@ -9,5 +9,4 @@ public class TimeUtil {
     }
 
     public static DateTimeFormatter DayTimeOutputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
 }
