@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
+import static java.net.URLEncoder.encode;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class MealServlet extends HttpServlet {
@@ -90,7 +91,7 @@ public class MealServlet extends HttpServlet {
         String description = request.getParameter("description");
         LocalDateTime date = LocalDateTime.parse(request.getParameter("datetime"));
         int Id = getIntOrDefault(request, "id", 0);
-        response.sendRedirect("meals?action=add&Id=" + Id + "&description=" + description + "&calories=" + calories +
+        response.sendRedirect("meals?action=add&Id=" + Id + "&description=" + encode(description, "UTF-8") + "&calories=" + calories +
                 "&datetime=" + date);
     }
 }
