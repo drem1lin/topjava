@@ -11,9 +11,8 @@
 <h2>Add meal</h2>
 
 <form method="POST" action='meals' name="frmAddUser" accept-charset="UTF-8">
-    ID: <input type="text" readonly="readonly" name="id" value="<c:out value="${meal.id}" />"/>
     Описание: <input type="text" name="description" value="<c:out value="${meal.description}" />"/>
-    Калории: <input type="text" name="calories" value="<c:out value="${meal.calories}" />"/>
+    Калории: <input type="number" name="calories" value="<c:out value="${meal.calories}" />"/>
     Дата: <input type="datetime-local" name="datetime" value="<c:out value="${meal.datetime}" />"/>
     <input type="submit" value="Submit"/>
 </form>
