@@ -16,7 +16,7 @@
     <input hidden="true" name='Id' value=${meal.id}>
     Описание: <input type="text" name="description" value=${meal.description}>
     Калории: <input type="number" name="calories" value=${meal.calories}>
-    Дата: <input name="datetime" value=${meal.datetime}>
+    Дата: <input type="datetime-local" name="datetime" value=${meal.datetime}>
     <input type="submit" value="Submit"/>
 </form>
 </body>

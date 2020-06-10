@@ -62,7 +62,7 @@ public class MealServlet extends HttpServlet {
                 String description = request.getParameter("description");
                 String dateString = request.getParameter("datetime");
                 LocalDateTime date = LocalDateTime.parse(dateString);
-                if (idStr == null) {
+                if (idStr == null || idStr.isEmpty() || idStr.equals("0")) {
                     log.debug("Adding meal {}\t{}\t{}", description, dateString, calories);
                     mealsDb.add(new Meal(0, date, description, calories));
                 } else {
@@ -101,11 +101,11 @@ public class MealServlet extends HttpServlet {
         String Id = request.getParameter("Id");
         StringBuilder resString = new StringBuilder("meals?action=add");
         if (Id != null) {
-            resString.append("&Id=" + Id);
+            resString.append("&Id=").append(Id);
         }
-        resString.append("&description=" + encode(description, "UTF-8"));
-        resString.append("&calories=" + calories);
-        resString.append("&datetime=" + date);
+        resString.append("&description=").append(encode(description, "UTF-8"));
+        resString.append("&calories=").append(calories);
+        resString.append("&datetime=").append(date);
         response.sendRedirect(resString.toString());
     }
 }
