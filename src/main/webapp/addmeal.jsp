@@ -12,10 +12,11 @@
 <hr>
 <h2>Add meal</h2>
 
-<form method="POST" action="meals?action=add&Id=<c:out value='${meal.id}' />" accept-charset="UTF-8">
-    Описание: <input type="text" name="description" value="<c:out value="${meal.description}" />"/>
-    Калории: <input type="number" name="calories" value="<c:out value="${meal.calories}" />"/>
-    Дата: <input type="datetime-local" name="datetime" value="<c:out value="${meal.datetime}" />"/>
+<form method="POST" action="meals" accept-charset="UTF-8">
+    <input hidden="true" name='Id' value=${meal.id}>
+    Описание: <input type="text" name="description" value=${meal.description}>
+    Калории: <input type="number" name="calories" value=${meal.calories}>
+    Дата: <input name="datetime" value=${meal.datetime}>
     <input type="submit" value="Submit"/>
 </form>
 </body>

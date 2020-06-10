@@ -33,8 +33,8 @@
             <td>${meal.dateTime}</td>
             <td>${meal.description}</td>
             <td>${meal.calories}</td>
-            <td><a href="meals?action=edit&Id=<c:out value="${meal.id}"/>">Обновить</a></td>
-            <td><a href="meals?action=delete&Id=<c:out value="${meal.id}"/>">Удалить</a></td>
+            <td><a href="meals?action=edit&Id=${meal.id}">Обновить</a></td>
+            <td><a href="meals?action=delete&Id=${meal.id}">Удалить</a></td>
         </tr>
     </c:forEach>
     <p><a href="meals?action=edit">Add Meal</a></p>

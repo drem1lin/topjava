@@ -3,13 +3,16 @@ package ru.javawebinar.topjava.dao;
 import ru.javawebinar.topjava.model.Meal;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 public interface IMealCrud {
     Meal get(Integer id);
 
-    Meal add(LocalDateTime dateTime, String description, Integer calories);
+    Meal add(Meal meal);
 
-    Meal update(Integer id, LocalDateTime dateTime, String description, Integer calories);
+    Meal update(Meal meal);
 
     void delete(Integer mealId);
+
+    Collection<Meal> getAll();
 }

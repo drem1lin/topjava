@@ -5,17 +5,17 @@ import ru.javawebinar.topjava.util.TimeUtil;
 import java.time.LocalDateTime;
 
 public class MealTo {
+    private final Integer id;
+
     private final LocalDateTime dateTime;
 
     private final String description;
 
-    private final int calories;
+    private final Integer calories;
 
     private final boolean excess;
 
-    private final Integer id;
-
-    public MealTo(Integer id, LocalDateTime dateTime, String description, int calories, boolean excess) {
+    public MealTo(Integer id, LocalDateTime dateTime, String description, Integer calories, boolean excess) {
         this.id = id;
         this.dateTime = dateTime;
         this.description = description;
@@ -39,7 +39,7 @@ public class MealTo {
     }
 
     public String getDateTime() {
-        return dateTime.format(TimeUtil.DayTimeOutputFormat);
+        return dateTime.format(TimeUtil.dateTimeOutputFormat);
     }
 
     public Integer getCalories() {

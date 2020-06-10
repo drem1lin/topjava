@@ -1,6 +1,7 @@
 package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
+import ru.javawebinar.topjava.dao.IMealCrud;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealTo;
 import ru.javawebinar.topjava.dao.MemoryMealDao;
@@ -19,9 +20,16 @@ import static java.net.URLEncoder.encode;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class MealServlet extends HttpServlet {
-    private static final Logger log = getLogger(UserServlet.class);
+    private static final Logger log = getLogger(MealServlet.class);
+    private static final Integer CALORIES_LIMIT = 2000;
 
-    private MemoryMealDao mealsDb = new MemoryMealDao();
+    private IMealCrud mealsDb;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        mealsDb = new MemoryMealDao();
+    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -29,7 +37,7 @@ public class MealServlet extends HttpServlet {
         int id;
 
         String action = request.getParameter("action");
-        if(action==null)
+        if (action == null)
             action = "";
         switch (action) {
             case "delete":
@@ -44,28 +52,29 @@ public class MealServlet extends HttpServlet {
                     id = Integer.parseInt(request.getParameter("Id"));
                     meal = mealsDb.get(id);
                 }
-                log.debug("Open adding/editing meal window for " + ((meal == null) ? "adding new" : "editing existing"));
+                log.debug("Open adding/editing meal window for {}", ((meal == null) ? "adding new" : "editing existing"));
                 request.setAttribute("meal", meal);
                 request.getRequestDispatcher("/addmeal.jsp").forward(request, response);
                 return;
             case "add":
-                id = Integer.parseInt(request.getParameter("Id"));
+                String idStr = request.getParameter("Id");
                 int calories = Integer.parseInt(request.getParameter("calories"));
                 String description = request.getParameter("description");
                 String dateString = request.getParameter("datetime");
                 LocalDateTime date = LocalDateTime.parse(dateString);
-                if (id == 0) {
-                    log.debug("Adding meal " + description + "\t" + dateString + "\t" + calories);
-                    mealsDb.add(date, description, calories);
+                if (idStr == null) {
+                    log.debug("Adding meal {}\t{}\t{}", description, dateString, calories);
+                    mealsDb.add(new Meal(0, date, description, calories));
                 } else {
-                    log.debug("Updating meal " + id + "\t" + description + "\t" + dateString + "\t" + calories);
-                    mealsDb.update(id, date, description, calories);
+                    id = Integer.parseInt(idStr);
+                    log.debug("Updating meal {}\t{}\t{}\t{}", id, description, dateString, calories);
+                    mealsDb.update(new Meal(id, date, description, calories));
                 }
                 response.sendRedirect(request.getRequestURI());
                 return;
             default:
                 log.debug("Displaying meals");
-                List<MealTo> mealToList = MealsUtil.filteredByStreams(mealsDb.getAllMeals(), LocalTime.MIN, LocalTime.MAX, 2000);
+                List<MealTo> mealToList = MealsUtil.filteredByStreams(mealsDb.getAll(), LocalTime.MIN, LocalTime.MAX, CALORIES_LIMIT);
                 request.setAttribute("mealToList", mealToList);
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;
@@ -85,13 +94,18 @@ public class MealServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        log.debug("Post: " + request.getParameter("description") + "\t" + request.getParameter("calories") + "\t" +
-                request.getParameter("datetime"));
+        log.debug("Post: {}\t{}\t{}\t", request.getParameter("description"), request.getParameter("calories"), request.getParameter("datetime"));
         int calories = getIntOrDefault(request, "calories", 0);
         String description = request.getParameter("description");
         LocalDateTime date = LocalDateTime.parse(request.getParameter("datetime"));
-        int Id = getIntOrDefault(request, "id", 0);
-        response.sendRedirect("meals?action=add&Id=" + Id + "&description=" + encode(description, "UTF-8") + "&calories=" + calories +
-                "&datetime=" + date);
+        String Id = request.getParameter("Id");
+        StringBuilder resString = new StringBuilder("meals?action=add");
+        if (Id != null) {
+            resString.append("&Id=" + Id);
+        }
+        resString.append("&description=" + encode(description, "UTF-8"));
+        resString.append("&calories=" + calories);
+        resString.append("&datetime=" + date);
+        response.sendRedirect(resString.toString());
     }
 }

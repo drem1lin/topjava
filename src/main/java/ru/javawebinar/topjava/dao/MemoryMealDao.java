@@ -14,35 +14,37 @@ public class MemoryMealDao implements IMealCrud {
 
     public MemoryMealDao() {
 
-        add(LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0),
-                "Завтрак", 500);
-        add(LocalDateTime.of(2020, Month.JANUARY, 30, 13, 0),
-                "Обед", 1000);
-        add(LocalDateTime.of(2020, Month.JANUARY, 30, 20, 0),
-                "Ужин", 500);
-        add(LocalDateTime.of(2020, Month.JANUARY, 31, 0, 0),
-                "Еда на граничное значение", 100);
-        add(LocalDateTime.of(2020, Month.JANUARY, 31, 10, 0),
-                "Завтрак", 1000);
-        add(LocalDateTime.of(2020, Month.JANUARY, 31, 13, 0),
-                "Обед", 500);
-        add(LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0),
-                "Ужин", 410);
+        add(new Meal(0, LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0),
+                "Завтрак", 500));
+        add(new Meal(0, LocalDateTime.of(2020, Month.JANUARY, 30, 13, 0),
+                "Обед", 1000));
+        add(new Meal(0, LocalDateTime.of(2020, Month.JANUARY, 30, 20, 0),
+                "Ужин", 500));
+        add(new Meal(0, LocalDateTime.of(2020, Month.JANUARY, 31, 0, 0),
+                "Еда на граничное значение", 100));
+        add(new Meal(0, LocalDateTime.of(2020, Month.JANUARY, 31, 10, 0),
+                "Завтрак", 1000));
+        add(new Meal(0, LocalDateTime.of(2020, Month.JANUARY, 31, 13, 0),
+                "Обед", 500));
+        add(new Meal(0, LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0),
+                "Ужин", 410));
     }
 
     public Meal get(Integer id) {
         return mealMap.getOrDefault(id, null);
     }
 
-    public Meal add(LocalDateTime dateTime, String description, Integer calories) {
-        Meal meal = new Meal(getNextId(), dateTime, description, calories);
+    public Meal add(Meal meal) {
+        meal.setId(getNextId());
         mealMap.put(meal.getId(), meal);
         return meal;
     }
 
-    public Meal update(Integer id, LocalDateTime dateTime, String description, Integer calories) {
-        Meal meal = new Meal(id, dateTime, description, calories);
-        mealMap.put(id, meal);
+    public Meal update(Meal meal) {
+        Meal existing = mealMap.get(meal.getId());
+        if (existing==null)
+            return null;
+        mealMap.put(meal.getId(), meal);
         return meal;
     }
 
@@ -50,7 +52,7 @@ public class MemoryMealDao implements IMealCrud {
         mealMap.remove(mealId);
     }
 
-    public Collection<Meal> getAllMeals() {
+    public Collection<Meal> getAll() {
         return mealMap.values();
     }
 
