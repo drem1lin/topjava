@@ -45,23 +45,19 @@ public class InMemoryUserRepository implements UserRepository {
     @Override
     public List<User> getAll() {
         log.info("getAll");
-        return repository.values().stream().sorted().collect(Collectors.toList());
-        /*List<User> usersList = new ArrayList<>(repository.values());
-        Collections.sort(usersList);
-        return usersList;*/
+        return repository.values()
+                .stream().
+                sorted((u1,u2)->u2.getName().compareTo(u1.getName())).
+                collect(Collectors.toList());
     }
 
     @Override
     public User getByEmail(String email) {
         log.info("getByEmail {}", email);
-        List<User> userWithEmail = repository.values().stream().filter(c -> c.getEmail().compareTo(email) == 0).collect(Collectors.toList());
-        if (userWithEmail.size() == 0)
-            return null;
-        else if (userWithEmail.size() == 1)
-            return userWithEmail.get(0);
-        else {
-            log.error("getByEmail {}, more than one user with this email!", email);
-            throw new IllegalStateException();
-        }
+        return repository.values()
+                .stream()
+                .filter(c -> c.getEmail().compareTo(email) == 0)
+                .findFirst()
+                .orElse(null);
     }
 }
