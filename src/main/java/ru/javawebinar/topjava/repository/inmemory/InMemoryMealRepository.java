@@ -25,7 +25,7 @@ public class InMemoryMealRepository implements MealRepository {
     }
 
     @Override
-    public Meal save(Meal meal, Integer userId) {
+    public Meal save(Meal meal, int userId) {
         //получим хранилище пользователя
         Map<Integer,Meal> userMeals= repository.get(userId);
 
@@ -47,7 +47,7 @@ public class InMemoryMealRepository implements MealRepository {
     }
 
     @Override
-    public boolean delete(int id, Integer userId) {
+    public boolean delete(int id, int userId) {
         Map<Integer,Meal> userMeals= repository.get(userId);
         if(userMeals==null){
             return false;
@@ -56,7 +56,7 @@ public class InMemoryMealRepository implements MealRepository {
     }
 
     @Override
-    public Meal get(int id, Integer userId) {
+    public Meal get(int id, int userId) {
         Map<Integer,Meal> userMeals= repository.get(userId);
         if(userMeals==null){
             return null;
@@ -65,7 +65,7 @@ public class InMemoryMealRepository implements MealRepository {
     }
 
     @Override
-    public List<Meal> getAll(Integer userId) {
+    public List<Meal> getAll(int userId) {
         Map<Integer,Meal> userMeals= repository.get(userId);
         if(userMeals==null){
             return null;

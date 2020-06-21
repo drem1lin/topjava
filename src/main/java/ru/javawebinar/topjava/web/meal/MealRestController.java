@@ -12,6 +12,7 @@ import ru.javawebinar.topjava.util.MealsUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ru.javawebinar.topjava.util.ValidationUtil.*;
 import static ru.javawebinar.topjava.web.SecurityUtil.authUserCaloriesPerDay;
 import static ru.javawebinar.topjava.web.SecurityUtil.authUserId;
 
@@ -34,6 +35,8 @@ public class MealRestController {
 
     public Meal create(Meal meal) {
         log.info("create {}", meal);
+        checkNew(meal);
+        checkNewMeal(meal);
         return service.create(meal, authUserId());
     }
 
@@ -41,7 +44,8 @@ public class MealRestController {
         service.delete(id, authUserId());
     }
 
-    public void update(Meal meal) {
-        service.update(meal, authUserId());
+    public void update(Meal meal, int mealId) {
+        assureMealIdConsistent(meal, mealId);
+        service.update(meal, mealId, authUserId());
     }
 }
