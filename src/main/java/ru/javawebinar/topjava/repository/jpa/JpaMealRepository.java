@@ -34,10 +34,9 @@ public class JpaMealRepository implements MealRepository {
                     .setParameter("calories", meal.getCalories())
                     .setParameter("description", meal.getDescription())
                     .executeUpdate() != 0;
-            if(result) {
+            if (result) {
                 return meal;
-            }
-            else{
+            } else {
                 return null;
             }
         }
@@ -59,9 +58,12 @@ public class JpaMealRepository implements MealRepository {
         }
         return null;
     }
+
     @Override
     public List<Meal> getAll(int userId) {
-        return em.createNamedQuery(Meal.ALL_SORTED, Meal.class).getResultList();
+        return em.createNamedQuery(Meal.ALL_SORTED, Meal.class)
+                .setParameter("user_id", userId)
+                .getResultList();
     }
 
     @Override
