@@ -18,12 +18,14 @@ public class DataJpaMealRepository implements MealRepository {
     private static final Sort SORT_DATETIME_DESC = Sort.by(Sort.Direction.DESC, "dateTime");
 
     private final CrudMealRepository crudRepository;
+    private final CrudUserRepository crudUserRepository;
 
     @PersistenceContext
     private EntityManager em;
 
-    public DataJpaMealRepository(CrudMealRepository crudRepository) {
+    public DataJpaMealRepository(CrudMealRepository crudRepository, CrudUserRepository crudUserRepository) {
         this.crudRepository = crudRepository;
+        this.crudUserRepository = crudUserRepository;
     }
 
     @Override
@@ -31,7 +33,8 @@ public class DataJpaMealRepository implements MealRepository {
         if (!meal.isNew() && get(meal.id(), userId) == null) {
             return null;
         }
-        meal.setUser(em.getReference(User.class, userId));
+        var user = crudUserRepository.getOne(userId);
+        meal.setUser(user);
         crudRepository.save(meal);
         return meal;
     }
