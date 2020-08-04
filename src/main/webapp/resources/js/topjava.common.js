@@ -3,10 +3,18 @@ var context, form;
 function makeEditable(ctx) {
     context = ctx;
     form = $('#detailsForm');
-    $(".delete").click(function () {
+    $(".delete").click(function (event) {
+        console.log('event.target: ', event);
+        var tr = event.target.closest('tr');
+        console.log('tr: ', tr);
+        if (!tr) return;
+
+        var id = tr.getAttribute('id');
+        console.log('id: ', id);
         if (confirm('Are you sure?')) {
-            deleteRow($(this).attr("id"));
+            deleteRow(id);
         }
+
     });
 
     $(document).ajaxError(function (event, jqXHR, options, jsExc) {
