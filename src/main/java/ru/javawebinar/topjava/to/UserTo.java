@@ -18,11 +18,13 @@ public class UserTo extends BaseTo implements HasIdAndEmail, Serializable {
 
     @NotBlank
     @Size(min = 2, max = 100)
+    @SafeHtml(whitelistType = NONE)
     private String name;
 
     @Email
     @NotBlank
     @Size(max = 100)
+    @SafeHtml(whitelistType = NONE) // https://stackoverflow.com/questions/17480809
     private String email;
 
     @NotBlank
