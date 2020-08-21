@@ -11,7 +11,10 @@ function makeEditable(aUrl, datatableOpts, upTable) {
                     "dataSrc": ""
                 },
                 "paging": false,
-                "info": true
+                "info": true,
+                "language": {
+                    "search": i18n["common.search"]
+                }
             }
         ));
     updateTable = upTable;
